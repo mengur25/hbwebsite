@@ -1,0 +1,17 @@
+{
+    "require": {
+        "mailgun/mailgun-php": "^4.3",
+        "nyholm/psr7": "^1.8",
+        "php-http/guzzle7-adapter": "^1.1",
+        "guzzlehttp/guzzle": "^7.9",
+        "php-http/discovery": "^1.20",
+        "phpmailer/phpmailer": "^6.9",
+        "mpdf/mpdf": "^6.1",
+        "tecnickcom/tcpdf": "^6.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
