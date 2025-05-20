@@ -1,5 +1,4 @@
 <?php
-
 require 'admin/inc/db_config.php';
 require 'admin/inc/essentials.php';
 use PHPMailer\PHPMailer\PHPMailer;
@@ -21,8 +20,7 @@ function send_mail($to, $subject, $html) {
         $mail->isHTML(true);
         $mail->Subject = 'Account Verification Link';
         $confirm_url = SITE_URL . "email_confirm.php?email_confirmation=1&email=" . urlencode($to) . "&token=" . urlencode($html);        
-        // Nội dung email với liên kết xác nhận
-        $htmlContent = "<html><body><h1>Xác nhận đăng ký</h1><p>Xin chào $subject,</p><p>Nhấn vào liên kết dưới đây để xác nhận email của bạn:</p><p><a href='$confirm_url'>Nhấn vào đây để xác nhận</a></p></body></html>";
+        $htmlContent = "<html><body><h1>Registeration Confirming</h1><p>Xin chào $subject,</p><p>Click here to verify your account:</p><p><a href='$confirm_url'>Click here</a></p></body></html>";
         $mail->Body = $htmlContent;
 
         $mail->send();
@@ -43,25 +41,20 @@ if(isset($_GET['email_confirmation'])){
         $fetch= mysqli_fetch_assoc($query);
 
         if($fetch['is_verified']==1){
-            echo"<script>alert('Email already verified') </script>";
+            echo"<script>alert('Email already verified'); setTimeout(function(){ window.location.href='index.php'; }, 1000);</script>";
         }
         else{
             $update = update("UPDATE `user_cred` SET `is_verified`=? WHERE `id`=?",[1,$fetch['id']],'ii');
             if($update){
                 echo "<script>alert('Email verification successful!'); setTimeout(function(){ window.location.href='index.php'; }, 1000);</script>";
-                
             }
             else{
-                echo"<script>alert('Email verification failed! Server Down!') </script>";
+                echo"<script>alert('Email verification failed! Server Down!'); setTimeout(function(){ window.location.href='index.php'; }, 1000);</script>";
             }
         }
-        redirect("index.php");
     }
     else{
-        echo"<script>alert('Invalid or Expired Link!') </script>";
-        redirect("index.php");
+        echo"<script>alert('Invalid or Expired Link!'); setTimeout(function(){ window.location.href='index.php'; }, 1000);</script>";
     }
 }
-
-
 ?>

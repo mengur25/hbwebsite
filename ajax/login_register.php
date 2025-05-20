@@ -10,7 +10,6 @@ use PHPMailer\PHPMailer\Exception;
 
 header('Content-Type: application/json');
 
-
 function send_mail($to, $subject, $html, $type = 'email_confirmation')
 {
     if ($type == "email_confirmation") {
@@ -42,7 +41,8 @@ function send_mail($to, $subject, $html, $type = 'email_confirmation')
         $mail->addAddress($to);
         $mail->isHTML(true);
         $mail->Subject = $email_subject;
-        $confirm_url = SITE_URL . "$page?email_confirmation=1&email=" . urlencode($to) . "&token=" . urlencode($html);
+        // Sửa $confirm_url để bao gồm email_confirmation=1
+        $confirm_url = SITE_URL . "$page?$url_param&s=1&email=" . urlencode($to) . "&token=" . urlencode($html);
         $htmlContent = "<html><body><h1>" . ($type == "email_confirmation" ? "Confirm your account" : "Reset your password") . "</h1><p>Hello $subject,</p><p>Click here to $content:</p><p><a href='$confirm_url'>Click me</a></p></body></html>";
         $mail->Body = $htmlContent;
 
@@ -218,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } 
     
-    // reccover account
+    // recover account
     elseif (isset($_POST['recover_user'])) {
         $data = filteration($_POST);
         $enc_pass = password_hash($data['pass'], PASSWORD_BCRYPT);
@@ -243,3 +243,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode(['success' => false, 'message' => 'invalid_method']);
     exit;
 }
+?>

@@ -1,6 +1,30 @@
 let feature_s_form = document.getElementById('feature_s_form');
 let facility_s_form = document.getElementById('facility_s_form');
+let facilityDescEditor;
 
+document.getElementById('facility-s').addEventListener('shown.bs.modal', function () {
+    if (!facilityDescEditor) {
+        ClassicEditor
+            .create(document.querySelector('#facility_desc_editor'))
+            .then(editor => {
+                facilityDescEditor = editor;
+
+                editor.model.document.on('change:data', () => {
+                    const plainText = editor.ui.getEditableElement().innerText.trim();
+                    document.querySelector('textarea[name="facility_desc"]').value = plainText;
+                });
+            })
+            .catch(error => {
+                console.error('CKEditor error:', error);
+            });
+    }
+});
+
+document.getElementById('facility-s').addEventListener('hidden.bs.modal', function () {
+    if (facilityDescEditor) {
+        facilityDescEditor.setData('');
+    }
+});
 feature_s_form.addEventListener('submit', function (e) {
     e.preventDefault();
     add_feature();
@@ -65,7 +89,7 @@ function rem_feature(val) {
         } catch (e) {
             // console.error("Lỗi JSON:", e);
             // console.error("Dữ liệu nhận được:", this.responseText);
-            alert('error', 'Lỗi khi xử lý phản hồi từ server!');
+            alert('error', 'Server Error!!');
         }
     }
     xhr.send('rem_feature=' + val);
@@ -141,7 +165,7 @@ function rem_facility(val) {
         } catch (e) {
             // console.error("Lỗi JSON:", e);
             // console.error("Dữ liệu nhận được:", this.responseText);
-            alert('error', 'Lỗi khi xử lý phản hồi từ server!');
+            alert('error', 'Server Error!');
         }
     }
     xhr.send('rem_facility=' + val);

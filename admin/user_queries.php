@@ -114,7 +114,7 @@ if (isset($_GET['del'])) {
                                             $seen .= "<a href='?seen=" . urlencode($row['sr_no']) . "' class='btn btn-sm rounded-pill btn-primary'>Mark as read</a><br>";
                                         }
                                         $seen .= "<a href='?del=" . urlencode($row['sr_no']) . "' class='btn btn-sm rounded-pill btn-danger mt-2'>Delete</a>";
-
+                                        
                                         echo <<<query
                                             <tr>
                                                 <td>$i</td>

@@ -47,12 +47,11 @@ $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 function getVnpResponseMessage($code) {
     $messages = [
         '00' => 'Payment by VNPAY',
-        '01' => 'Giao dịch chưa hoàn tất',
-        '02' => 'Giao dịch bị lỗi',
+        '01' => 'Payment is not done yet',
+        '02' => 'There is an error',
         '07' => 'Giao dịch bị nghi ngờ gian lận',
         '09' => 'Giao dịch thất bại: Số dư không đủ',
-        '24' => 'Người dùng hủy giao dịch',
-        // Thêm các mã khác nếu cần từ tài liệu VNPay
+        '24' => 'User cancelled',
     ];
     return $messages[$code] ?? 'Lỗi không xác định (Mã: ' . $code . ')';
 }

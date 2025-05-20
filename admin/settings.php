@@ -53,8 +53,9 @@ adminLogin();
                                         <input type="text" name="site_title" id="site_title_inp" class="form-control shadow-none" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label fw-bold">About us</label>
-                                        <textarea name="site_about" id="site_about_inp" class="form-control shadow-none" rows="5" required></textarea>
+                                        <label for="site_about_editor" class="form-label fw-bold">About us</label>
+                                        <div id="site_about_editor"></div>
+                                        <input type="hidden" name="site_about" id="site_about_inp" class="form-control shadow-none" rows="5" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -267,6 +268,7 @@ adminLogin();
 
     <?php require 'inc/scripts.php' ?>
     <script src="scripts/settings.js"></script>
+
 </body>
 
 </html>

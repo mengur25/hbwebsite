@@ -66,7 +66,7 @@ function rem_image(val) {
         } catch (e) {
             // console.error("Lỗi JSON:", e);
             // console.error("Dữ liệu nhận được:", this.responseText);
-            alert('error', 'Lỗi khi xử lý phản hồi từ server!');
+            alert('error', 'Server Error!');
         }
     }
     xhr.send('rem_image=' + val);

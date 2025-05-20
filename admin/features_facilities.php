@@ -130,7 +130,7 @@ adminLogin();
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Description</label>
-                            <textarea name="facility_desc" class="form-control shadow-none" rows="3"></textarea>
+                            <textarea name="facility_desc" id="facility_desc_editor" class="form-control shadow-none" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -146,7 +146,8 @@ adminLogin();
         require 'inc/scripts.php';
     ?>
     <script src="scripts/features_facilities.js"></script>
-    
+
+
 </body>
 
 </html>

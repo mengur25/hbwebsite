@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php require 'inc/links.php' ?>
+    <link rel="icon" type="image/svg+xml" href="images/Logo-w.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <title><?php echo isset($settings_r['site_title']) ? $settings_r['site_title'] : 'Hotel Booking'; ?> - HOME</title>
@@ -34,6 +35,7 @@
 </head>
 
 <body class="bg-light">
+    
     <!-- nav-bar -->
     <?php require 'inc/header.php'; ?>
 
@@ -393,35 +395,35 @@
 
     <?php
 
-    if (isset($_GET['email_confirmation'])) {
-        $data = filteration($_GET);
-        $current_date = date("Y-m-d");
+if (isset($_GET['s']) && $_GET['s'] == 1 && isset($_GET['email']) && isset($_GET['token'])) {
+    $data = filteration($_GET);
+    $current_date = date("Y-m-d");
 
-        $query = select(
-            "SELECT * FROM `user_cred` WHERE `email`=? AND `token`=? AND `t_expire`>=? LIMIT 1",
-            [$data['email'], $data['token'], $current_date],
-            'sss'
-        );
+    $query = select(
+        "SELECT * FROM `user_cred` WHERE `email`=? AND `token`=? AND `t_expire`>=? LIMIT 1",
+        [$data['email'], $data['token'], $current_date],
+        'sss'
+    );
 
-        if (mysqli_num_rows($query) == 1) {
-            echo <<< showModal
-            <script>
-                console.log("Showing recovery modal for email: '$data[email]' with token: '$data[token]'");
-                var myModal = document.getElementById('recoveryModal');
-                if (myModal) {
-                    myModal.querySelector("input[name='email']").value = '$data[email]';
-                    myModal.querySelector("input[name='token']").value = '$data[token]';
-                    var modal = bootstrap.Modal.getOrCreateInstance(myModal);
-                    modal.show();
-                } else {
-                    console.error("Recovery modal not found!");
-                }
-            </script>
+    if (mysqli_num_rows($query) == 1) {
+        echo <<<showModal
+        <script>
+            console.log("Showing recovery modal for email: '$data[email]' with token: '$data[token]'");
+            var myModal = document.getElementById('recoveryModal');
+            if (myModal) {
+                myModal.querySelector("input[name='email']").value = '$data[email]';
+                myModal.querySelector("input[name='token']").value = '$data[token]';
+                var modal = bootstrap.Modal.getOrCreateInstance(myModal);
+                modal.show();
+            } else {
+                console.error("Recovery modal not found!");
+            }
+        </script>
         showModal;
-        } else {
-            echo "<script>alert('error', 'Invalid or Expired Link');</script>";
-        }
+    } else {
+        echo "<script>alert('Invalid or Expired Link!');</script>";
     }
+}
 
     ?>
 

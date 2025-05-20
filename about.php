@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>YN Hotel - ABOUT</title>
     <?php require 'inc/links.php' ?>
+    <link rel="icon" type="image/svg+xml" href="images/Logo-w.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <title><?php echo $settings_r['site_title'] ?> - ABOUT</title>
     <style>

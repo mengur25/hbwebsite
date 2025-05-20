@@ -10,6 +10,27 @@ let team_s_form = document.getElementById('team_s_form');
 let member_name_inp = document.getElementById('member_name_inp');
 let member_picture_inp = document.getElementById('member_picture_inp');
 
+let siteAboutEditor;
+document.getElementById('general-s').addEventListener('shown.bs.modal', function () {
+    if (!siteAboutEditor) {
+        ClassicEditor
+            .create(document.querySelector('#site_about_editor'))
+            .then(editor => {
+                siteAboutEditor = editor;
+                editor.setData(general_data.site_about);
+                console.log(general_data.site_about);
+                editor.model.document.on('change:data', () => {
+                    const editableEl = editor.ui.getEditableElement();
+                    const plainText = editableEl.innerText.trim();
+                    document.getElementById('site_about_inp').value = plainText;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+});
+
 team_s_form.addEventListener('submit', function (e) {
     e.preventDefault();
 });
@@ -86,7 +107,7 @@ function upd_shutdown(val) {
             alert('success', 'Site has been shutdown!');
 
 
-        } 
+        }
         else {
             alert('success', 'Shutdown mode off!');
         }
@@ -114,7 +135,7 @@ function get_contacts() {
             let element = document.getElementById(contacts_p_id[i]);
             if (element) {
                 element.innerText = contacts_data[i + 1] || '';
-            } 
+            }
             else {
                 console.warn("Element not found:", contacts_p_id[i]);
             }
@@ -165,7 +186,7 @@ function upd_contacts() {
             alert('success', 'Changes saved!');
 
 
-        } 
+        }
         else {
             alert('error', 'No changes made!');
         }
@@ -199,13 +220,13 @@ function add_member() {
 
         if (this.responseText == 'inv_img') {
             alert('error', 'Only JPG and PNG images are allowed');
-        } 
+        }
         else if (this.responseText == 'inv_size') {
             alert('error', 'Image should be less than 2MB!');
-        } 
+        }
         else if (this.responseText == 'upd_failed') {
             alert('error', 'Image upload failed. Server down!');
-        } 
+        }
         else {
             alert('success', 'New member added!');
             member_name_inp.value = '';
@@ -239,14 +260,14 @@ function rem_member(val) {
             if (resp.success) {
                 alert('success', 'Member removed!');
                 get_members();
-            } 
+            }
             else {
                 alert('error', 'Server down!');
             }
         } catch (e) {
             // console.error("Lỗi JSON:", e);
             // console.error("Dữ liệu nhận được:", this.responseText);
-            alert('error', 'Lỗi khi xử lý phản hồi từ server!');
+            alert('error', 'Server Error!');
         }
     }
     xhr.send('rem_member=' + val);

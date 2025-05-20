@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php require 'inc/links.php' ?>
+    <link rel="icon" type="image/svg+xml" href="images/Logo-w.png" />
     <title><?php echo $settings_r['site_title'] ?> - CONFIRM BOOKING</title>
 
 </head>

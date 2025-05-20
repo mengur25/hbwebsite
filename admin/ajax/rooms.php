@@ -145,7 +145,10 @@ if (isset($_POST['get_room'])) {
     echo $data;
 }
 
+
+
 if (isset($_POST['edit_room'])) {
+    
     $features = isset($_POST['features']) ? json_decode($_POST['features'], true) : [];
     $facilities = isset($_POST['facilities']) ? json_decode($_POST['facilities'], true) : [];
 

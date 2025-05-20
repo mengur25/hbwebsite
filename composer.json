@@ -7,7 +7,8 @@
         "php-http/discovery": "^1.20",
         "phpmailer/phpmailer": "^6.9",
         "mpdf/mpdf": "^6.1",
-        "tecnickcom/tcpdf": "^6.8"
+        "tecnickcom/tcpdf": "^6.8",
+        "ezyang/htmlpurifier": "^4.18"
     },
     "config": {
         "allow-plugins": {

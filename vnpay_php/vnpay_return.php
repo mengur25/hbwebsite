@@ -141,7 +141,7 @@ function getVnpResponseMessage($code)
                 </label>
             </div>
             <div class="form-group">
-                <a href="../pay_status.php?<?php echo http_build_query($_GET); ?>">Continue to Payment Status</a>
+                <a href="../pay_status.php?">Continue to Payment Status</a>
             </div>
         </div>
         <footer class="footer">

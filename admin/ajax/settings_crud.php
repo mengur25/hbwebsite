@@ -12,15 +12,9 @@ if (isset($_POST['get_general'])) {
     echo $json_data;
 }
 
+
 if (isset($_POST['upd_general'])) {
     $frm_data = filteration($_POST);
-
-    // Kiểm tra xem dữ liệu có đầy đủ không
-    // if (!isset($frm_data['site_title']) || !isset($frm_data['site_about'])) {
-    //     echo json_encode(["error" => "Missing parameters"]);
-    //     var_dump($_POST); // Kiểm tra dữ liệu gửi từ AJAX
-    //     exit;
-    // }
 
     $q = "UPDATE `settings` SET `site_title`=?, `site_about`=? WHERE `sr_no`=?";
     $values = [$frm_data['site_title'], $frm_data['site_about'], 1];

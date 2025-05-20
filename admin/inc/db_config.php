@@ -1,11 +1,11 @@
 <?php
 
-$hname = 'localhost';
-$uname = 'root';
-$pass = '';
-$db = 'hbwebsite';
+$hname = "localhost";
+$uname = "root";
+$pass = "";
+$dbname = "hbwebsite";
+$con = mysqli_connect($hname, $uname, $pass, $dbname, 3306);
 
-$con = mysqli_connect($hname, $uname, $pass, $db, 3306);
 
 
 

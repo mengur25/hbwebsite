@@ -130,8 +130,9 @@ adminLogin();
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
-                                <label for="exampleFormControlInput1" class="form-label fw-bold">Description</label>
-                                <textarea name="desc" rows="4" class="form-control shadow-none" required></textarea>
+                                <label for="description_editor_add" class="form-label fw-bold">Description</label>
+                                <div id="description_editor_add"></div>
+                                <input type="hidden" name="desc" id="description_hidden_add">
                             </div>
                         </div>
                     </div>
@@ -216,8 +217,10 @@ adminLogin();
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
-                                <label for="exampleFormControlInput1" class="form-label fw-bold">Description</label>
-                                <textarea name="desc" rows="4" class="form-control shadow-none" required></textarea>
+                                <label for="description_editor_edit" class="form-label fw-bold">Description</label>
+                                <div id="description_editor_edit"></div>
+
+                                <input type="hidden" name="desc" id="description_hidden_edit">
                             </div>
 
                             <input type="hidden" name="room_id">
@@ -274,8 +277,12 @@ adminLogin();
     <?php
     require 'inc/scripts.php';
     ?>
-    <script src="scripts/rooms.js">     
+    <script src="scripts/rooms.js">
     </script>
+
+    
+
+
 </body>
 
 </html>

@@ -60,7 +60,7 @@ function add_room() {
 function get_all_rooms() {
     let data = new FormData();
     data.append('get_all_rooms', '');
-    
+
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "ajax/rooms.php", true);
     // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -70,7 +70,7 @@ function get_all_rooms() {
 
     }
     xhr.send(data);
-    
+
 }
 
 let edit_room_form = document.getElementById('edit_room_form');
@@ -133,40 +133,66 @@ function submit_edit_room() {
     xhr.send(data);
 }
 
+let roomData = {};
+
 function edit_details(id) {
+    // Xóa dữ liệu cũ để tránh sử dụng giá trị cũ
+    roomData = {};
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "ajax/rooms.php", true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    let data = new FormData();
-    // data.append('get_room', '');
 
     xhr.onload = function () {
-        // console.log(this.responseText);
-        let data = JSON.parse(this.responseText);
-        edit_room_form.elements['name'].value = data.roomdata.name;
-        edit_room_form.elements['area'].value = data.roomdata.area;
-        edit_room_form.elements['price'].value = data.roomdata.price;
-        edit_room_form.elements['quantity'].value = data.roomdata.quantity;
-        edit_room_form.elements['adult'].value = data.roomdata.adult;
-        edit_room_form.elements['children'].value = data.roomdata.children;
-        edit_room_form.elements['desc'].value = data.roomdata.description;
-        edit_room_form.elements['room_id'].value = data.roomdata.id;
+        if (this.status === 200) {
+            try {
+                let data = JSON.parse(this.responseText);
+                // Gán dữ liệu phòng vào roomData
+                roomData = data.roomdata || {};
+                console.log('roomData:', roomData); // Kiểm tra dữ liệu
 
-        edit_room_form.elements['features'].forEach(el => {
-            if (data.features.includes(Number(el.value))) {
-                el.checked = true;
+                // Populate form fields
+                const form = document.getElementById('edit_room_form');
+                if (form) {
+                    form.elements['name'].value = roomData.name || '';
+                    form.elements['area'].value = roomData.area || '';
+                    form.elements['price'].value = roomData.price || '';
+                    form.elements['quantity'].value = roomData.quantity || '';
+                    form.elements['adult'].value = roomData.adult || '';
+                    form.elements['children'].value = roomData.children || '';
+                    form.elements['room_id'].value = roomData.id || '';
+
+                    // Populate checkboxes for features
+                    const featureInputs = form.querySelectorAll('[name="features"]');
+                    featureInputs.forEach(el => {
+                        el.checked = data.features.includes(Number(el.value));
+                    });
+
+                    // Populate checkboxes for facilities
+                    const facilityInputs = form.querySelectorAll('[name="facilities"]');
+                    facilityInputs.forEach(el => {
+                        el.checked = data.facilities.includes(Number(el.value));
+                    });
+
+                    // Kích hoạt sự kiện để khởi tạo CKEditor
+                    const event = new CustomEvent('roomDataLoaded', { detail: roomData });
+                    document.dispatchEvent(event);
+                } else {
+                    console.error('Form element #edit_room_form not found');
+                }
+            } catch (e) {
+                console.error('Error parsing response:', e);
             }
-        });
+        } else {
+            console.error('AJAX request failed with status:', this.status);
+        }
+    };
 
-        edit_room_form.elements['facilities'].forEach(el => {
-            if (data.facilities.includes(Number(el.value))) {
-                el.checked = true;
-            }
-        });
+    xhr.onerror = function () {
+        console.error('AJAX request error');
+    };
 
-    }
-    xhr.send('get_room=' + id);
+    xhr.send('get_room=' + encodeURIComponent(id));
 }
 
 function toggle_status(id, val) {
@@ -349,4 +375,71 @@ function remove_room(room_id) {
 
 window.onload = function () {
     get_all_rooms();
+}
+
+let descriptionEditorAdd, descriptionEditorEdit;
+
+document.getElementById('add-room').addEventListener('shown.bs.modal', function () {
+    if (!descriptionEditorAdd) {
+        ClassicEditor
+            .create(document.querySelector('#description_editor_add'))
+            .then(editor => {
+                descriptionEditorAdd = editor;
+                editor.setData('');
+                editor.model.document.on('change:data', () => {
+                    const plainText = editor.ui.getEditableElement().innerText.trim();
+                    document.getElementById('description_hidden_add').value = plainText;
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+});
+
+document.getElementById('edit-room').addEventListener('shown.bs.modal', function () {
+    if (descriptionEditorEdit) {
+        descriptionEditorEdit.destroy()
+            .then(() => {
+                descriptionEditorEdit = null;
+                initializeEditEditor();
+            })
+            .catch(error => {
+                console.error('Error destroying edit editor:', error);
+                initializeEditEditor();
+            });
+    } else {
+        initializeEditEditor();
+    }
+});
+
+function initializeEditEditor() {
+    ClassicEditor
+        .create(document.querySelector('#description_editor_edit'), {
+            htmlSupport: {
+                allow: [{
+                    name: 'p'
+                },
+                {
+                    name: 'br'
+                }
+                ]
+            }
+        })
+        .then(editor => {
+            descriptionEditorEdit = editor;
+            if (roomData && roomData.description) {
+                editor.setData(roomData.description);
+            } else {
+                editor.setData('No description available');
+                console.warn('roomData.description is not available:', roomData);
+            }
+            editor.model.document.on('change:data', () => {
+                const plainText = editor.ui.getEditableElement().innerText.trim();
+                document.getElementById('description_hidden_edit').value = plainText;
+            });
+        })
+        .catch(error => {
+            console.error('Error creating edit editor:', error);
+        });
 }

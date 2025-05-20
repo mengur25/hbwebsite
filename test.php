@@ -11,12 +11,15 @@ try {
 }
 
 
-// $conn = mysqli_connect('localhost', 'root', '', 'hbwebsite', 3306);
-// if ($conn) {
-//     echo "Connected successfully!";
-// } else {
-//     echo "Connection failed: " . mysqli_connect_error();
-// }
+
+// $hname = "localhost";
+// $uname = "root";
+// $pass = "";
+// $dbname = "hbwebsite";
+// $con = mysqli_connect($hname, $uname, $pass, $dbname, 3306);
 // if (!$con) {
-//     die("Cannot connect to Database" . mysqli_connect_error());
+//     die("Connection failed: " . mysqli_connect_error());
+// } else {
+//     echo "Connected successfully to database: $dbname";
 // }
+?>
