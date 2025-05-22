@@ -37,7 +37,6 @@ if (isset($_POST['get_bookings'])) {
                     <br>
                     <b>Phone No:</b> $data[phonenum]
                 </td>
-
                 <td>
                     <b>Room:</b> $data[room_name]
                     <br>
@@ -49,16 +48,14 @@ if (isset($_POST['get_bookings'])) {
                     <br>
                 </td>
                 <td>
-                    <b>\$$data[trans_amt]<b>
+                    <b>VND $data[trans_amt]</b>
                 </td>
                 <td>
                     <button type='button' onclick='refund_booking($data[booking_id])' class='btn btn-success mt-2 btn-sm fw-bold shadow-none'>
-                        <i class = 'bi bi-cash-stack'></i> refund
+                        <i class='bi bi-cash-stack'></i> Refund
                     </button>
-                    
                 </td>
             </tr>
-        
         ";
         $i++;
     }
@@ -66,15 +63,13 @@ if (isset($_POST['get_bookings'])) {
     echo $table_data;
 }
 
-
-
 if (isset($_POST['refund_booking'])) {
     $frm_data = filteration($_POST);
 
-
-    $query = "UPDATE `booking_order` SET `refund` =? WHERE `booking_id` =?";
+    $query = "UPDATE `booking_order` SET `refund`=? WHERE `booking_id`=?";
     $values = [1, $frm_data['booking_id']];
-    $res = update($query, $values, 'ii'); //it will be update 2 rows so it will return 2
+    $res = update($query, $values, 'ii');
 
     echo json_encode(['success' => ($res == 1)]);
 }
+?>

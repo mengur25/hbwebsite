@@ -169,6 +169,11 @@
     color: #e0e0e0 !important;
 }
 
+.dark-mode .bg-warning {
+    background-color: #ffb834 !important;
+    color: #e0e0e0 !important;
+}
+
 .dark-mode .badge.text-dark {
     color: #e0e0e0 !important;
 }
